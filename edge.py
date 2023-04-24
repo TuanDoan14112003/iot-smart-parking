@@ -3,8 +3,9 @@ import mysql.connector
 import json
 from datetime import datetime
 
-device = '/dev/cu.usbmodem11301'
+device = '/dev/cu.usbmodem1201'
 arduino = serial.Serial(device,9600)
+
 mydb = mysql.connector.connect(
 host="localhost",
 user="tuandoan",
@@ -13,6 +14,7 @@ db="smart_parking_db"
 
 mycursor = mydb.cursor()
 while True:
+    print(123)
     serialData = arduino.readline()
     decodedData = serialData.decode("utf-8")
 

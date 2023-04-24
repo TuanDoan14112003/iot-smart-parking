@@ -73,7 +73,7 @@ void loop() {
   // buffer = "Tuan Doan";
   for (byte i = len; i < 30; i++) buffer[i] = ' ';     // pad with spaces
 
-  block = 53;
+  block = 54;
   //Serial.println(F("Authenticating using key A..."));
   status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, block, &key, &(mfrc522.uid));
   if (status != MFRC522::STATUS_OK) {

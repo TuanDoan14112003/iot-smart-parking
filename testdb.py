@@ -34,16 +34,48 @@
 
 import mysql.connector
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="tuandoan",
-  database="smart_parking_db"
-)
+# mydb = mysql.connector.connect(
+#   host="localhost",
+#   user="tuandoan",
+#   database="smart_parking_db"
+# )
 
-mycursor = mydb.cursor()
+# mycursor = mydb.cursor()
 
-mycursor.execute("SELECT * from parking WHERE Date(time) = '2023-04-23'")
+# mycursor.execute("SELECT * from parking WHERE Date(time) = '2023-04-23'")
 
-myresult = mycursor.fetchall()
+# myresult = mycursor.fetchall()
 
-print(len(myresult))
+# print(len(myresult))
+import serial
+import json
+import threading
+from datetime import datetime
+device = '/dev/cu.usbmodem1201'
+arduino = serial.Serial(device,9600)
+import flask
+
+app = flask.Flask("arduino project")
+app.config['SECRET_KEY'] = 'secret!'
+
+def edge():
+    while True:
+        print(123)
+        serialData = arduino.readline()
+        decodedData = serialData.decode("utf-8")
+        print(decodedData)
+        entry = json.loads(decodedData)    
+        password = entry["password"]
+
+        if password == "Zz38dDtS3tXwveW":
+            arduino.write(b"open")
+
+
+def webserver():
+    app.run(threaded=True,debug=False,host='0.0.0.0',port=8080)
+thread1 = threading.Thread(target=edge)
+thread1.start()
+
+thread2 = threading.Thread(target=webserver)
+thread2.start()
+# 

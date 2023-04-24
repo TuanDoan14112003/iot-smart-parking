@@ -63,83 +63,64 @@ void loop() {
   }
   lcd.setCursor(0, 0);
   lcd.print("There is: " + String(numberOfSlot) + " slots");
-  //  if (Serial.available()>0) {
-  //   String a = Serial.readString();
-  //   a.trim();
-  //   if (a == "open") {
-  //     servo1.write(90);
-  //     delay(2000);
-  //     servo1.write(0);
-  //   }
-  //  }
+   if (Serial.available()>0) {
+    String a = Serial.readString();
+    a.trim();
+    if (a == "open") {
+      servo1.write(90);
+      delay(2000);
+      servo1.write(0);
+    }
+   }
   
 
-  // if (!mfrc522.PICC_IsNewCardPresent()) {
-  //   return;
-  // }
+  if (!mfrc522.PICC_IsNewCardPresent()) {
+    return;
+  }
 
 
-  // if (!mfrc522.PICC_ReadCardSerial()) {
-  //   return;
-  // }
+  if (!mfrc522.PICC_ReadCardSerial()) {
+    return;
+  }
 
 
-  // byte nameBuffer[18];
-  // byte phoneBuffer[18];
-  // byte modelBuffer[18];
-  // byte plateBuffer[18];
-  // byte passwordBuffer[18];
-  // if (readData(57, nameBuffer) && readData(58, phoneBuffer) && readData(61, modelBuffer) && readData(62, plateBuffer) && readData(53,passwordBuffer)) {
-  //   String name;
-  //   for (uint8_t i = 0; i < 16; i++) {
-  //     // if (buffer[i] != 32) {
-  //     name += char(nameBuffer[i]);
-  //     // }
-  //   }
-  //   name.trim();
+  byte nameBuffer[18];
+  byte passwordBuffer[18];
+  byte customerIDBuffer[18];
 
 
+  if (readData(57, nameBuffer) && readData(53,passwordBuffer) && readData(54,customerIDBuffer)) {
+    String name;
+    for (uint8_t i = 0; i < 16; i++) {
+      // if (buffer[i] != 32) {
+      name += char(nameBuffer[i]);
+      // }
+    }
+    name.trim();
 
-  //   String phone;
-  //   for (uint8_t i = 0; i < 16; i++) {
+    String customerID;
+    for (uint8_t i = 0; i < 16; i++) {
+      customerID += char(customerIDBuffer[i]);
+    }
 
-  //     phone += char(phoneBuffer[i]);
-  //   }
-  //   phone.trim();
+    customerID.trim();
 
-  //   String model;
-  //   for (uint8_t i = 0; i < 16; i++) {
+    String password;
+    for (uint8_t i = 0; i < 16; i++) {
 
-  //     model += char(modelBuffer[i]);
-  //   }
-  //   model.trim();
+      password += char(passwordBuffer[i]);
+    }
+    password.trim();
 
+    doc["password"] = password;
+    doc["name"] = name;
+    doc["customerID"] = customerID;
+    serializeJson(doc, Serial);
+    Serial.println();
+  }
+  // delay(1000);  //change value if you want to read cards faster
 
-  //   String plate;
-  //   for (uint8_t i = 0; i < 16; i++) {
-
-  //     plate += char(plateBuffer[i]);
-  //   }
-  //   plate.trim();
-
-  //   String password;
-  //   for (uint8_t i = 0; i < 16; i++) {
-
-  //     password += char(passwordBuffer[i]);
-  //   }
-  //   password.trim();
-
-  //   doc["password"] = password;
-  //   doc["name"] = name;
-  //   doc["phone"] = phone;
-  //   doc["model"] = model;
-  //   doc["plate"] = plate;
-  //   serializeJson(doc, Serial);
-  //   Serial.println();
-  // }
-  // // delay(1000);  //change value if you want to read cards faster
-
-  // mfrc522.PICC_HaltA();
-  // mfrc522.PCD_StopCrypto1();
+  mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
 }
 //*****************************************************************************************//

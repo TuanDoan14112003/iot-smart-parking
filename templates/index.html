@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/open">asdfds</a>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <div id ="divid"></div>
+    <script type="text/javascript" charset="utf-8">
+    var socket = io.connect("localhost:8080");
+    socket.on('connect', function() {
+        socket.send("connected");
+    });
+    var btn = $("<button>test</button>");
+    $("#divid").append(btn);
+    function openGate() {
+
+        socket.send("open gate");
+
+    }
+    btn.on("click", openGate);
+</script>
+</body>
+</html>

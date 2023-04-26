@@ -92,7 +92,19 @@
 
 
 </div>
+<div id="interaction">
+    <h2>Real Time Interaction</h2>
+    <div>
+        <form method="POST" action="/changepassword">
+            <h3>Change password</h3>
+            <input type="text" id="password" name="password"><br>
+            <button type="submit"> Change password</button>
+          </form>
+    </div>
+    <h3>Open gate in real time</h3>
+</div>
 <script>
+
 const xValues = [{{ ', '.join(entries.keys()) }}];
 console.log(xValues);
 const yValues = [{{ ', '.join(entries.values()) }}];
@@ -147,7 +159,9 @@ new Chart("barChart", {
   data: {
     labels: months,
     datasets: [{
-      data: values
+      data: values,
+      backgroundColor: ["#b30000", "#7c1158", "#4421af", "#1a53ff", "#0d88e6", "#00b7c7", "#5ad45a", "#8be04e", "#ebdc78","#b30000", "#7c1158", "#4421af"]
+
     }]
   },
   options: {
@@ -163,14 +177,14 @@ new Chart("barChart", {
 </script>
 
 
-<div id ="divid"></div>
+
 <script type="text/javascript" charset="utf-8">
 var socket = io.connect("localhost:8080");
 socket.on('connect', function() {
     socket.send("connected");
 });
-var btn = $("<button>test</button>");
-$("#divid").append(btn);
+var btn = $("<button class='button'>Open Gate</button>");
+$("#interaction").append(btn);
 function openGate() {
 
     socket.send("open gate");

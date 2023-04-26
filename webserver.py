@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_socketio import SocketIO
 import mysql.connector
 import json
@@ -6,6 +6,12 @@ import serial
 import threading
 from calendar import monthrange, month_name
 from datetime import datetime, timedelta
+password = None
+with open("password.txt",'r') as file:
+    password = file.readline().strip()
+
+
+
 
 mydb = mysql.connector.connect(
 host="localhost",
@@ -49,6 +55,13 @@ def index():
     print(averagePerDay)
     return render_template('index.html', customerList = customers,entries = entryDictionary, averagePerDay = averagePerDay)
 
+@app.route('/changepassword', methods=["POST"])
+def changePassword():
+    global password
+    password = request.form.get('password')
+    with open("password.txt",'w') as file:
+        file.write(password) 
+    return redirect("/")
 
 @socketio.on('message')
 def handle_message(data):
@@ -57,15 +70,14 @@ def handle_message(data):
         arduino.write(b"open")
 
 
-
 def edge():
     while True:
         serialData = arduino.readline()
         decodedData = serialData.decode("utf-8")
         entry = json.loads(decodedData)    
-        password = entry["password"]
+        print(entry)
         customerID = entry["customerID"]
-        if password == "Zz38dDtS3tXwveW":
+        if entry["password"] == password:
             customerID = int(customerID,0)
             arduino.write(b"open")
             time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

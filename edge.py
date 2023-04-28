@@ -1,24 +1,23 @@
-import serial
-import mysql.connector
-import json
+import serial  # PySerial library for Serial communication
+import mysql.connector  # MySQL library to connect to the database
+import json  # To deserialize the data sent by the Arduino
 from datetime import datetime
 
 device = '/dev/cu.usbmodem1201'
-arduino = serial.Serial(device,9600)
+arduino = serial.Serial(device, 9600)
 
 mydb = mysql.connector.connect(
-host="localhost",
-user="tuandoan",
-db="smart_parking_db"
+    host="localhost",
+    user="tuandoan",
+    db="smart_parking_db"
 )
 
 mycursor = mydb.cursor()
 while True:
-    print(123)
     serialData = arduino.readline()
     decodedData = serialData.decode("utf-8")
 
-    entry = json.loads(decodedData)    
+    entry = json.loads(decodedData)
     password = entry["password"]
 
     if password == "Zz38dDtS3tXwveW":
@@ -36,11 +35,3 @@ while True:
         print(mycursor.rowcount, "record inserted.")
     else:
         print("not authenticated")
-
-
-
-
-
-
-
-

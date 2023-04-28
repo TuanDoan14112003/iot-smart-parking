@@ -1,197 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+    integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous">
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 </head>
+
 <body>
 
 
 
-<header class="center">
+  <header class="center">
     <h1>Smart Parking System</h1>
-</header>
-<section id="main-section">
-<div id="background-information">
-    <div id="introduction">
+  </header>
+  <section id="main-section">
+    <div id="background-information">
+      <div id="introduction">
         <h2>Introduction</h2>
-            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>        
-            
-    </div>
-    <div class="paragraph-container">
+        <p>The Internet of Things has the ability to connect multiple physical sensors, actuators and edge devices to
+          form an interconnected network and allow those devices to collect and exchange information. Therefore, IoT can
+          be used in many services to automate tasks, reduce costs and improve productivity. One of those applications
+          that could be improved by IoT is parking lots. This project will propose an IoT-enabled Smart Parking System
+          that uses physical sensors and actuators instead of human labour to automatically manage customers, monitor
+          entries to the parking space and track the number of available parking slots. Moreover, the system also comes
+          with a web-based interface that allows the manager to see the customer list, analyze collected data, change
+          the passcode for the gate and interact with the physical devices in real time. </p>
+
+      </div>
+      <div class="paragraph-container">
         <figure>
-            <img src="{{ url_for('static',filename='arduino.jpg') }}" alt="Trulli">
-            <!-- <figcaption>Arduino picture, link: https://unsplash.com/photos/fZB51omnY_Y</figcaption> -->
+          <!-- Source: https://unsplash.com/photos/fZB51omnY_Y -->
+          <img src="{{ url_for('static',filename='arduino.jpg') }}" alt="Trulli">
         </figure>
-        <div class = "info">
-            <h2>Sensors</h2>
-            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>        
+        <div class="info">
+          <h2>Sensors</h2>
+          <p>
+            <ul>
+              <li> RFID Reader: This device can be used to read the data written on the customer’s Mifare card including
+                a customer ID and a password.</li>
+              <li> Ultrasonic Sensor: An ultrasonic sensor is installed at every parking slot to detect the presence of
+                a vehicle. By connecting to the sensors corresponding to the parking slots, the microcontroller can
+                calculate the total number of free parking spaces and display it on the LCD screen.</li>
+              <li>Water Sensor: A water level sensor is used to detect when it is raining and reminds the customers to
+                grab their umbrellas.</li>
+            </ul>
+          </p>
         </div>
-    </div>
-    <div class="paragraph-container">
-        <div class = "info">
-            <h2>Actuators</h2>
-            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>        
+      </div>
+      <div class="paragraph-container">
+        <div class="info">
+          <h2>Actuators</h2>
+          <p>
+            <ul>
+              <li>LCD Screen: The LCD screen is used to communicate with the customers. It can display the number of
+                available parking slots and reminds the customers to grab their umbrellas when it rains. The prototype
+                uses the LCD1602 screen which can be easily connected to the Arduino via an I2C module.</li>
+              <li>Servomotor: In the prototype, a small 9G servomotor is used to control the gate for the parking lot.
+                In particular, when the microcontroller receives the “open” command from the edge device, it will
+                control the servomotor to open the gate for the customers. </li>
+            </ul>
+          </p>
         </div>
         <figure>
-            <img src="{{ url_for('static',filename='servo.jpeg') }}" alt="Trulli">
-            <!-- <figcaption>Arduino picture, link: https://unsplash.com/photos/fZB51omnY_Y</figcaption> -->
+          <!-- Source: https://www.electronicwings.com/particle/servo-motor-interfacing-with-particle-photon -->
+          <img src="{{ url_for('static',filename='servo.jpeg') }}" alt="Trulli">
         </figure>
 
-    </div>
+      </div>
 
-    
 
-<div id="data-visualization">
-    <h2>Collected data</h2>
-    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>    
-    <div id="customer-list">
-        <table>
+
+      <div id="data-visualization">
+        <h2>Collected data</h2>
+        <p>This application uses a MySQL database to record the customers’ information as well as the entries to the
+          parking lot. The database has 2 tables: Customer and Parking_Entry tables. The first table record the customer
+          ID, first name, last name, phone number, car model, and plate number, while the second table stores the time
+          when a customer enters the parking lot and their customer ID. Therefore, the application can use the
+          Parking_Entry table to calculate the number of entries in a day and do simple analyses such as finding the
+          average daily usage. </p>
+        <div id="customer-list">
+          <table>
             <thead>
-                <tr>
-                    <th>Customer ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone Number</th>
-                    <th>Car model</th>
-                    <th>Car plate</th>
-                </tr>
+              <tr>
+                <th>Customer ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Number</th>
+                <th>Car model</th>
+                <th>Car plate</th>
+              </tr>
             </thead>
             <tbody>
-                {% for customer in customerList %}
-                <tr>
-                    <td>{{customer.CustomerID}}</td>
-                    <td>{{customer.firstName}}</td>
-                    <td>{{customer.lastName}}</td>
-                    <td>{{customer.phone}}</td>
-                    <td>{{customer.model}}</td>
-                    <td>{{customer.plate}}</td>
-                </tr>
-                {% endfor %}
+              {% for customer in customerList %}
+              <tr>
+                <td>{{customer.CustomerID}}</td>
+                <td>{{customer.firstName}}</td>
+                <td>{{customer.lastName}}</td>
+                <td>{{customer.phone}}</td>
+                <td>{{customer.model}}</td>
+                <td>{{customer.plate}}</td>
+              </tr>
+              {% endfor %}
             </tbody>
           </table>
-          
-    </div>
-    <div class="chart-containter"> 
-        <canvas id="lineChart" ></canvas>
-    </div>
-    <div class="chart-containter">
-        <canvas id="barChart"></canvas>
-    </div>
+
+        </div>
+        <p>The best customers (with the highest number of entries) is:
+
+          {{bestCustomer.firstName}} {{bestCustomer.lastName}} with {{bestCustomer.numberOfEntries}} entries
+
+        </p>
+        <div class="chart-containter">
+          <canvas id="lineChart"></canvas>
+        </div>
+        <div class="chart-containter">
+          <canvas id="barChart"></canvas>
+        </div>
 
 
 
-    
 
 
-</div>
-<div id="interaction">
-    <h2>Real Time Interaction</h2>
-    <div>
-        <form method="POST" action="/changepassword">
+
+      </div>
+      <div id="interaction">
+        <h2>Real Time Interaction</h2>
+        <div>
+          <form method="POST" action="/changepassword">
             <h3>Change password</h3>
             <input type="text" id="password" name="password"><br>
             <button type="submit"> Change password</button>
           </form>
-    </div>
-    <h3>Open gate in real time</h3>
-</div>
-<script>
+        </div>
+        <h3>Open gate in real time</h3>
+      </div>
+      <script>
+        const xValues = [{{', '.join(entries.keys())}}];
+        console.log(xValues);
+        const yValues = [{{', '.join(entries.values())}}];
+        console.log(yValues);
+        new Chart("lineChart", {
+          type: "line",
+          data: {
+            labels: xValues.reverse(),
+            datasets: [{
+              fill: false,
+              lineTension: 0,
+              backgroundColor: "rgba(0,0,255,1.0)",
+              borderColor: "rgba(0,0,255,0.1)",
+              data: yValues.reverse()
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            title: {
+              display: true,
+              text: 'The number of entries in the parking lot in the last 7 days'
+            },
+            legend: {
+              display: false
+            },
 
-const xValues = [{{ ', '.join(entries.keys()) }}];
-console.log(xValues);
-const yValues = [{{ ', '.join(entries.values()) }}];
-console.log(yValues);
-new Chart("lineChart", {
-  type: "line",
-  data: {
-    labels: xValues.reverse(),
-    datasets: [{
-      fill: false,
-      lineTension: 0,
-      backgroundColor: "rgba(0,0,255,1.0)",
-      borderColor: "rgba(0,0,255,0.1)",
-      data: yValues.reverse()
-    }]
-  },
-  options: {
-    maintainAspectRatio: false,
-    title : {
-				display : true,
-				text : 'The number of entries in the parking lots in the last 7 days'
-			},
-    legend: {display: false},
-    
-    scales: {
-        yAxes: [{
-      scaleLabel: {
-        display: true,
-        labelString: 'Number Of Entries'
-      }
-    }], 
-    xAxes: [{
-      scaleLabel: {
-        display: true,
-        labelString: 'Date'
-      }
-    }],
-
-    
-    },
-    
-  }
-});
-
-var months = "{{ ','.join(averagePerDay.keys()) }}";
-months = months.split(',')
-const values = [{{ ', '.join(averagePerDay.values()) }}];
-console.log(months)
-console.log(values)
-new Chart("barChart", {
-  type: "bar",
-  data: {
-    labels: months,
-    datasets: [{
-      data: values,
-      backgroundColor: ["#b30000", "#7c1158", "#4421af", "#1a53ff", "#0d88e6", "#00b7c7", "#5ad45a", "#8be04e", "#ebdc78","#b30000", "#7c1158", "#4421af"]
-
-    }]
-  },
-  options: {
-    legend: {display: false},
-    title: {
-      display: true,
-      text: "Average entries per Day"
-    },
-    maintainAspectRatio: false,
-
-  }
-});
-</script>
+            scales: {
+              yAxes: [{
+                
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Number Of Entries',
+                  
+                }
+              }],
+              xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Date'
+                }
+              }],
 
 
+            },
 
-<script type="text/javascript" charset="utf-8">
-var socket = io.connect("localhost:8080");
-socket.on('connect', function() {
-    socket.send("connected");
-});
-var btn = $("<button class='button'>Open Gate</button>");
-$("#interaction").append(btn);
-function openGate() {
+          }
+        });
 
-    socket.send("open gate");
+        var months = "{{ ','.join(averagePerDay.keys()) }}";
+        months = months.split(',')
+        const values = [{{', '.join(averagePerDay.values())}}];
+        console.log(months)
+        console.log(values)
+        new Chart("barChart", {
+          type: "bar",
+          data: {
+            labels: months,
+            datasets: [{
+              data: values,
+              backgroundColor: ["#b30000", "#7c1158", "#4421af", "#1a53ff", "#0d88e6", "#00b7c7", "#5ad45a",
+                "#8be04e", "#ebdc78", "#b30000", "#7c1158", "#4421af"
+              ]
 
-}
-btn.on("click", openGate);
-</script>
-</section>
+            }]
+          },
+          options: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: "Average entries per Day"
+            },
+            maintainAspectRatio: false,
+
+          }
+        });
+      </script>
+
+
+
+      <script type="text/javascript" charset="utf-8">
+        var socket = io.connect("localhost:8080");
+        socket.on('connect', function () {
+          socket.send("connected");
+        });
+        var btn = $("<button class='button'>Open Gate</button>");
+        $("#interaction").append(btn);
+
+        function openGate() {
+
+          socket.send("open gate");
+
+        }
+        btn.on("click", openGate);
+      </script>
+  </section>
 </body>
+
 </html>

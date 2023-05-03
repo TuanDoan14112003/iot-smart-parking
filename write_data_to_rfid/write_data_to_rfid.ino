@@ -26,7 +26,9 @@
 
 #define RST_PIN         9           // Configurable, see typical pin layout above
 #define SS_PIN          10          // Configurable, see typical pin layout above
-
+#define CUSTOMERID_BLOCK 54
+#define PASSWORD_BLOCK 53
+#define NAME_BLOCK 57
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance
 
 void setup() {
@@ -73,7 +75,7 @@ void loop() {
   // buffer = "Tuan Doan";
   for (byte i = len; i < 30; i++) buffer[i] = ' ';     // pad with spaces
 
-  block = 54;
+  block = NAME_BLOCK;
   //Serial.println(F("Authenticating using key A..."));
   status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, block, &key, &(mfrc522.uid));
   if (status != MFRC522::STATUS_OK) {

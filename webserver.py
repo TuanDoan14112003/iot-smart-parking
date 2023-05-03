@@ -15,10 +15,10 @@ with open("password.txt", 'r') as file:
 mydb = mysql.connector.connect(
     host="localhost",
     user="tuandoan",
-    database="smart_parking_db"
+    database="iot_project"
 )
 mycursor = mydb.cursor(dictionary=True)
-device = '/dev/cu.usbmodem11301'
+device = '/dev/cu.usbmodem1301'
 arduino = serial.Serial(device, 9600)  # Setup the Serial communication
 
 
